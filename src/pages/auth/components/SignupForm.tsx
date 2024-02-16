@@ -5,6 +5,7 @@ import { useForm } from "@mantine/form"
 import { Button, Flex, PasswordInput, TextInput } from "@mantine/core"
 import Link from "next/link"
 import { Routes } from "@blitzjs/next"
+import { Signup } from "@/features/auth/schemas"
 
 type SignupFormProps = {
   onSuccess?: () => void
@@ -16,7 +17,7 @@ export const SignupForm = (props: SignupFormProps) => {
   const [signupMutation] = useMutation(signup)
 
   const form = useForm({
-    initialValues: { name: "", email: "", password: "", repeatPassword: "" },
+    initialValues: { username: "", name: "", email: "", password: "", repeatPassword: "" },
   })
 
   const handleSubmit = async (values) => {
@@ -38,9 +39,14 @@ export const SignupForm = (props: SignupFormProps) => {
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Flex gap={16} direction="column">
           <TextInput label="Name" {...form.getInputProps("name")} />
-          <TextInput label="Email" {...form.getInputProps("email")} />
-          <PasswordInput label="Password" {...form.getInputProps("password")} />
-          <PasswordInput label="Repeat password" {...form.getInputProps("repeatPassword")} />
+          <TextInput withAsterisk label="Email" {...form.getInputProps("email")} />
+          <TextInput withAsterisk label="Username" {...form.getInputProps("username")} />
+          <PasswordInput withAsterisk label="Password" {...form.getInputProps("password")} />
+          <PasswordInput
+            withAsterisk
+            label="Repeat password"
+            {...form.getInputProps("repeatPassword")}
+          />
 
           <Button type="submit">Create account</Button>
         </Flex>

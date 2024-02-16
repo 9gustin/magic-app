@@ -1,9 +1,12 @@
 import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
-import { MantineProvider } from "@mantine/core"
+import { ColorScheme, ColorSchemeProvider, Loader, MantineProvider } from "@mantine/core"
+import { useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { AuthenticationError, AuthorizationError } from "blitz"
-import React from "react"
+import React, { Suspense } from "react"
 import { withBlitz } from "src/blitz-client"
 import "src/styles/globals.css"
+import Layout from "./components/Layout"
+import { defaultTheme } from "@/config/theme"
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -26,26 +29,33 @@ function RootErrorFallback({ error }: ErrorFallbackProps) {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: "mantine-color-scheme",
+    defaultValue: "dark",
+    getInitialValueInEffect: true,
+  })
+
+  const toggleColorScheme = (value?: ColorScheme) =>
+    setColorScheme(value || (colorScheme === "dark" ? "light" : "dark"))
+
+  useHotkeys([["mod+J", () => toggleColorScheme()]])
+
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      <MantineProvider
-        withGlobalStyles
-        withNormalizeCSS
-        theme={{
-          colorScheme: "dark",
-          activeStyles: { transform: "scale(0.95)" },
-          defaultRadius: "md",
-          components: {
-            Button: {
-              defaultProps: {
-                color: "indigo",
-              },
-            },
-          },
-        }}
-      >
-        <Component {...pageProps} />
-      </MantineProvider>
+      <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+        <MantineProvider
+          withGlobalStyles
+          withNormalizeCSS
+          theme={{
+            ...defaultTheme,
+            colorScheme,
+          }}
+        >
+          <Suspense fallback={<Loader />}>
+            <Component {...pageProps} />
+          </Suspense>
+        </MantineProvider>
+      </ColorSchemeProvider>
     </ErrorBoundary>
   )
 }

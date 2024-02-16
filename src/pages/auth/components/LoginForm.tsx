@@ -17,10 +17,10 @@ export const LoginForm = (props: LoginFormProps) => {
   const [loginMutation] = useMutation(login)
 
   const form = useForm({
-    initialValues: { email: "", password: "" },
+    initialValues: { userkey: "", password: "" },
   })
 
-  const handleSubmit = async (values: { email: string; password: string }) => {
+  const handleSubmit = async (values: { userkey: string; password: string }) => {
     try {
       const user = await loginMutation(values)
       props.onSuccess?.(user)
@@ -40,7 +40,7 @@ export const LoginForm = (props: LoginFormProps) => {
     <AuthForm title="Login">
       <form onSubmit={form.onSubmit(handleSubmit)}>
         <Flex gap={16} direction="column">
-          <TextInput label="Email" {...form.getInputProps("email")} />
+          <TextInput label="Username or Email" {...form.getInputProps("userkey")} />
           <PasswordInput label="Password" {...form.getInputProps("password")} />
 
           <Button type="submit">Login</Button>

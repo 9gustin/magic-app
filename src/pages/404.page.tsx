@@ -5,7 +5,7 @@ import { Routes } from "@blitzjs/next"
 
 export function NothingFoundBackground() {
   return (
-    <Center h="100%" w="100%" p={24}>
+    <Center mih="100%" w="100%" p={24}>
       <Flex direction="column" align="center" justify="center" style={{ gap: 20 }}>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 362 145">
           <path

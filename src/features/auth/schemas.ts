@@ -12,12 +12,14 @@ export const password = z
   .transform((str) => str.trim())
 
 export const Signup = z.object({
+  name: z.string().optional(),
+  username: z.string(),
   email,
   password,
 })
 
 export const Login = z.object({
-  email,
+  userkey: z.string(),
   password: z.string(),
 })
 
