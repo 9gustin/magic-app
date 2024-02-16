@@ -26,11 +26,10 @@ function RootErrorFallback({ error }: ErrorFallbackProps) {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const getLayout = Component.getLayout || ((page) => page)
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
       <MantineProvider withGlobalStyles withNormalizeCSS>
-        {getLayout(<Component {...pageProps} />)}
+        <Component {...pageProps} />
       </MantineProvider>
     </ErrorBoundary>
   )
