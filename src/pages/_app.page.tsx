@@ -28,7 +28,22 @@ function RootErrorFallback({ error }: ErrorFallbackProps) {
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      <MantineProvider withGlobalStyles withNormalizeCSS>
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{
+          colorScheme: "dark",
+          activeStyles: { transform: "scale(0.95)" },
+          defaultRadius: "md",
+          components: {
+            Button: {
+              defaultProps: {
+                color: "indigo",
+              },
+            },
+          },
+        }}
+      >
         <Component {...pageProps} />
       </MantineProvider>
     </ErrorBoundary>

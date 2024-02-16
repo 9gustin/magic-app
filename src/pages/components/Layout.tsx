@@ -12,7 +12,6 @@ export const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }>
         <title>{title || "magic-app"}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
       {children}
     </>
   )
