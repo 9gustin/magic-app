@@ -5,7 +5,7 @@
 import { expect, vi, test } from "vitest"
 import { render } from "test/utils"
 
-import Home from "../src/pages/index"
+import Home from "../src/pages/index.page"
 
 vi.mock("public/logo.png", () => ({
   default: { src: "/logo.png" },
