@@ -2,7 +2,7 @@ import { Loader } from "@mantine/core"
 import { useParams } from "next/navigation"
 import Layout from "../components/Layout"
 
-export default function Page() {
+export default function Profile() {
   const params = useParams()
 
   if (!params) {
