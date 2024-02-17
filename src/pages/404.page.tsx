@@ -1,5 +1,5 @@
 import Head from "next/head"
-import { Container, Title, Text, Button, Flex, Center } from "@mantine/core"
+import { Title, Text, Button, Flex, Center } from "@mantine/core"
 import Link from "next/link"
 import { Routes } from "@blitzjs/next"
 
@@ -40,7 +40,7 @@ export default function Page404() {
           {statusCode}: {title}
         </title>
       </Head>
-      <NothingFoundBackground statusCode={statusCode} title={title} />
+      <NothingFoundBackground />
     </>
   )
 }
