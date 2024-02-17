@@ -5,8 +5,13 @@ import { AuthenticationError, AuthorizationError } from "blitz"
 import React, { Suspense } from "react"
 import { withBlitz } from "src/blitz-client"
 import "src/styles/globals.css"
-import Layout from "./components/Layout"
 import { defaultTheme } from "@/config/theme"
+import relativeTime from "dayjs/plugin/relativeTime"
+import dayjs from "dayjs"
+import "dayjs/locale/en"
+
+dayjs.locale("en")
+dayjs.extend(relativeTime)
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {

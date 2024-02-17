@@ -14,13 +14,20 @@ import {
 } from "@mantine/core"
 import { IconCrystalBall, IconLogout, IconMoonStars, IconSun } from "@tabler/icons-react"
 import Link from "next/link"
+import { useRouter } from "next/router"
 
 export const AppHeader = () => {
   const user = useCurrentUser()
   const theme = useMantineTheme()
+  const router = useRouter()
   const { colorScheme, toggleColorScheme } = useMantineColorScheme()
 
   const [$logoutMutation] = useMutation(logout)
+
+  const handleLogout = async () => {
+    await $logoutMutation()
+    router.push(Routes.Home())
+  }
 
   return (
     <Header
@@ -55,16 +62,14 @@ export const AppHeader = () => {
           checked={colorScheme === "dark"}
           color={colorScheme === "dark" ? "gray" : "dark"}
           onChange={() => toggleColorScheme()}
-          onLabel={<IconSun size="1rem" stroke={2.5} color={theme.colors.yellow[4]} />}
-          offLabel={<IconMoonStars size="1rem" stroke={2.5} color={theme.colors.blue[6]} />}
+          onLabel={<IconSun size="1rem" stroke={2.5} color={theme.colors.indigo[2]} />}
+          offLabel={<IconMoonStars size="1rem" stroke={2.5} color={theme.colors.indigo[9]} />}
         />
         {user && (
           <Button
             size="xs"
             variant="light"
-            onClick={async () => {
-              await $logoutMutation()
-            }}
+            onClick={handleLogout}
             leftIcon={<IconLogout size="1.2rem" />}
           >
             Logout
