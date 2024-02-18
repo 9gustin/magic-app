@@ -12,11 +12,11 @@ export default function Profile() {
   const user = useCurrentUser()
   const [profileUser] = useQuery(getUserProfile, { username: params?.username?.toString() || "" })
 
-  if (!params || !user || !profileUser) {
+  if (!params || !profileUser) {
     return <Loader />
   }
 
-  const isCurrentUser = user?.username === params?.username
+  const isCurrentUser = user && user?.username === params?.username
 
   return (
     <Layout>
@@ -27,7 +27,7 @@ export default function Profile() {
             <IconPencil size="1.1rem" />
           </Button>
         )}
-        {!isCurrentUser && <Button size="sm">Follow</Button>}
+        {user && !isCurrentUser && <Button size="sm">Follow</Button>}
       </Flex>
       <Text>{profileUser.name}</Text>
       <Text>Joined {dayjs(profileUser.createdAt).fromNow()}</Text>
