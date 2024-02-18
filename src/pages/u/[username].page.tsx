@@ -6,8 +6,9 @@ import { useQuery } from "@blitzjs/rpc"
 import getUserProfile from "@/features/users/queries/getUserProfile"
 import dayjs from "dayjs"
 import { IconPencil } from "@tabler/icons-react"
+import { BlitzPage } from "@blitzjs/next"
 
-export default function Profile() {
+const Profile: BlitzPage = () => {
   const params = useParams()
   const user = useCurrentUser()
   const [profileUser] = useQuery(getUserProfile, { username: params?.username?.toString() || "" })
@@ -34,3 +35,5 @@ export default function Profile() {
     </Layout>
   )
 }
+
+export default Profile
