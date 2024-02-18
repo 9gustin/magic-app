@@ -14,7 +14,7 @@ export default resolver.pipe(
     }
     const user = await db.user.findFirst({
       where: { username },
-      select: { id: true, name: true, createdAt: true, username: true },
+      select: { id: true, name: true, createdAt: true, username: true, bio: true },
     })
 
     return user

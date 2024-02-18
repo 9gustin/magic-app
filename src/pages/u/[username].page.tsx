@@ -30,7 +30,9 @@ const Profile: BlitzPage = () => {
         )}
         {user && !isCurrentUser && <Button size="sm">Follow</Button>}
       </Flex>
-      <Text>{profileUser.name}</Text>
+      {profileUser.name && <Text>{profileUser.name}</Text>}
+      {profileUser.bio && <Text>{profileUser.bio}</Text>}
+
       <Text>Joined {dayjs(profileUser.createdAt).fromNow()}</Text>
     </Layout>
   )

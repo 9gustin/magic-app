@@ -20,6 +20,7 @@ model User {
   email          String   @unique
   username       String   @unique
   hashedPassword String?
+  bio            String?
   role           String   @default("USER")
 
   tokens   Token[]
