@@ -21,9 +21,14 @@ export const Signup = z.object({
   }),
 })
 
+
 export const Login = z.object({
   userkey: z.string(),
   password: z.string(),
+  deviceInfo: z.object({
+    browser: z.object({ name: z.string() }),
+    os: z.object({ name: z.string() }),
+  }).optional(),
 })
 
 export const ForgotPassword = z.object({

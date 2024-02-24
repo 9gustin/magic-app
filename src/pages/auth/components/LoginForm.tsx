@@ -1,3 +1,4 @@
+import UAParser from 'ua-parser-js';
 import { AuthenticationError, PromiseReturnType } from "blitz"
 import Link from "next/link"
 import login from "src/features/auth/mutations/login"
@@ -24,7 +25,13 @@ export const LoginForm = (props: LoginFormProps) => {
 
   const handleSubmit = async (values: { userkey: string; password: string }) => {
     try {
-      const user = await loginMutation(values)
+      const parser = new UAParser();
+      const result = parser.getResult();
+      const deviceInfo = {
+        browser: result.browser,
+        os: result.os,
+      };
+      const user = await loginMutation({ ...values, deviceInfo })
       props.onSuccess?.(user)
     } catch (error: any) {
       if (error instanceof AuthenticationError) {

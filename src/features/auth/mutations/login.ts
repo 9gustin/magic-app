@@ -4,6 +4,9 @@ import { AuthenticationError } from "blitz"
 import db from "db"
 import { Role } from "types"
 import { Login } from "../schemas"
+import { sendEmail } from "../../../../email/sendEmail"
+import NewDeviceLogged from "../../../../email/react-email/emails/new-device-logged"
+import React from "react"
 
 export const authenticateUser = async (rawUserkey: string, rawPassword: string) => {
   const { userkey, password } = Login.parse({ userkey: rawUserkey, password: rawPassword })
@@ -24,9 +27,21 @@ export const authenticateUser = async (rawUserkey: string, rawPassword: string) 
   return rest
 }
 
-export default resolver.pipe(resolver.zod(Login), async ({ userkey, password }, ctx) => {
+export default resolver.pipe(resolver.zod(Login), async ({ userkey, password, deviceInfo }, ctx) => {
   // This throws an error if credentials are invalid
   const user = await authenticateUser(userkey, password)
+
+  // TODO: Improve devices logic and enable this again
+  // if (deviceInfo) {
+  //   sendEmail({
+  //     subject: "New device logged",
+  //     to: user.email,
+  //     react: React.createElement(NewDeviceLogged, {
+  //       name: user.name || user.username,
+  //       deviceInfo: `${deviceInfo.browser.name} (${deviceInfo.os.name})`,
+  //     })
+  //   })
+  // }
 
   await ctx.session.$create({ userId: user.id, role: user.role as Role })
 

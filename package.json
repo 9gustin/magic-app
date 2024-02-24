@@ -10,7 +10,8 @@
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest",
     "prepare": "husky install",
-    "db:migrate": "blitz prisma migrate dev"
+    "db:migrate": "blitz prisma migrate dev",
+    "email": "cd email/react-email && npm run dev --port 3009"
   },
   "prisma": {
     "schema": "db/schema.prisma"
@@ -28,15 +29,19 @@
     "@mantine/form": "6.0.21",
     "@mantine/hooks": "6.0.21",
     "@prisma/client": "5.4.2",
+    "@t3-oss/env-nextjs": "0.9.2",
     "@tabler/icons-react": "2.47.0",
     "blitz": "2.0.4",
     "dayjs": "1.11.10",
     "next": "13.5.4",
+    "nodemailer": "6.9.10",
     "prisma": "5.4.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hanger": "2.4.5",
+    "resend": "3.2.0",
     "secure-password": "4.0.0",
+    "ua-parser-js": "1.0.37",
     "zod": "3.22.4"
   },
   "devDependencies": {

@@ -3,6 +3,9 @@ import { resolver } from "@blitzjs/rpc"
 import db from "db"
 import { Role } from "types"
 import { Signup } from "../schemas"
+import { sendEmail } from "../../../../email/sendEmail"
+import WelcomeUserEmail from "../../../../email/react-email/emails/welcome-user"
+import React from "react"
 
 export default resolver.pipe(
   resolver.zod(Signup),
@@ -17,6 +20,12 @@ export default resolver.pipe(
         username,
       },
       select: { id: true, name: true, email: true, role: true },
+    })
+
+    sendEmail({
+      subject: "Welcome to Magic App",
+      to: email,
+      react: React.createElement(WelcomeUserEmail, { name: name || username }),
     })
 
     await ctx.session.$create({ userId: user.id, role: user.role as Role })
