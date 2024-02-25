@@ -13,18 +13,16 @@ import * as React from "react"
 
 const baseUrl = process.env.WEBAPP_URL
 
-export const WelcomeUserEmail = ({ name = "DISPLAY_NAME", validateEmailUrl = "" }) => (
+export const EmailTemplateConfirmEmail = ({ name = "DISPLAY_NAME", validateEmailUrl = "" }) => (
   <Html>
     <Head />
-    <Preview>Welcome to Magic App! 🔮</Preview>
+    <Preview>Validate your magic app's account! 🔮</Preview>
     <Body style={main}>
       <Container style={container}>
         <Section style={box}>
           🔮
           <Hr style={hr} />
-          <Text style={paragraph}>
-            Hi {name}, welcome to Magic App! You're now ready to make live
-          </Text>
+          <Text style={paragraph}>Hi {name}, lets validate your account</Text>
           {validateEmailUrl && (
             <Button style={button} href={validateEmailUrl}>
               Confirm your email
@@ -43,7 +41,7 @@ export const WelcomeUserEmail = ({ name = "DISPLAY_NAME", validateEmailUrl = "" 
   </Html>
 )
 
-export default WelcomeUserEmail
+export default EmailTemplateConfirmEmail
 
 const main = {
   backgroundColor: "#f6f9fc",

@@ -7,6 +7,7 @@ import getUserProfile from "@/features/users/queries/getUserProfile"
 import dayjs from "dayjs"
 import { IconPencil } from "@tabler/icons-react"
 import { BlitzPage } from "@blitzjs/next"
+import { VerifiedUserAlert } from "@/pages/components/VerifiedUserAlert"
 
 const Profile: BlitzPage = () => {
   const params = useParams()
@@ -34,6 +35,7 @@ const Profile: BlitzPage = () => {
       {profileUser.bio && <Text>{profileUser.bio}</Text>}
 
       <Text>Joined {dayjs(profileUser.createdAt).fromNow()}</Text>
+      {isCurrentUser && !user.verifiedAt && <VerifiedUserAlert />}
     </Layout>
   )
 }

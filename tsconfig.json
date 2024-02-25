@@ -25,7 +25,13 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ]
+      ],
+      "@/email/*": [
+        "./email/*"
+      ],
+      "@/templates/*": [
+        "./email/react-email/emails/*"
+      ],
     }
   },
   "exclude": [
