@@ -9,7 +9,6 @@
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest",
-    "prepare": "husky install",
     "db:migrate": "blitz prisma migrate dev",
     "email": "cd email/react-email && npm run dev --port 3009"
   },
@@ -58,7 +57,6 @@
     "@types/react": "18.0.25",
     "@vitejs/plugin-react": "2.2.0",
     "ajv": "^7.0.0",
-    "husky": "8.0.2",
     "jsdom": "20.0.3",
     "lint-staged": "13.0.3",
     "prettier": "^2.7.1",
