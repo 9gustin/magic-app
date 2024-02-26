@@ -1,49 +1,25 @@
-import { hash256 } from "@blitzjs/auth"
 import { SecurePassword } from "@blitzjs/auth/secure-password"
 import { resolver } from "@blitzjs/rpc"
-import db from "db"
 import { ResetPassword } from "../schemas"
-import login from "./login"
-
-export class ResetPasswordError extends Error {
-  name = "ResetPasswordError"
-  message = "Reset password link is invalid or it has expired."
-}
+import { validateToken } from "@/features/token/utils/validateToken"
+import { TokenType } from "@prisma/client"
+import db from "../../../../db"
+import login from "@/features/auth/mutations/login"
 
 export default resolver.pipe(resolver.zod(ResetPassword), async ({ password, token }, ctx) => {
-  // 1. Try to find this token in the database
-  const hashedToken = hash256(token)
-  const possibleToken = await db.token.findFirst({
-    where: { hashedToken, type: "RESET_PASSWORD" },
-    include: { user: true },
+  const user = await validateToken({
+    token,
+    tokenType: TokenType.RESET_PASSWORD,
+    userData: { hashedPassword: await SecurePassword.hash(password.trim()) },
   })
 
-  // 2. If token not found, error
-  if (!possibleToken) {
-    throw new ResetPasswordError()
-  }
-  const savedToken = possibleToken
+  if (user) {
+    await db.session.deleteMany({ where: { userId: user.id } })
 
-  // 3. Delete token so it can't be used again
-  await db.token.delete({ where: { id: savedToken.id } })
+    await login({ userkey: user.email, password }, ctx)
 
-  // 4. If token has expired, error
-  if (savedToken.expiresAt < new Date()) {
-    throw new ResetPasswordError()
+    return true
   }
 
-  // 5. Since token is valid, now we can update the user's password
-  const hashedPassword = await SecurePassword.hash(password.trim())
-  const user = await db.user.update({
-    where: { id: savedToken.userId },
-    data: { hashedPassword },
-  })
-
-  // 6. Revoke all existing login sessions for this user
-  await db.session.deleteMany({ where: { userId: user.id } })
-
-  // 7. Now log the user in with the new credentials
-  await login({ userkey: user.email, password }, ctx)
-
-  return true
+  return false
 })

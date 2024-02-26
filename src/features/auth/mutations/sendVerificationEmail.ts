@@ -7,6 +7,7 @@ import { regenerateToken } from "@/features/token/utils/createToken"
 import React from "react"
 import EmailTemplateConfirmEmail from "@/templates/validate-email"
 import { sendEmail } from "@/email/sendEmail"
+import { SIMPLE_USER_FIELDS } from "@/features/auth/constants"
 
 export const getEmailVerifyLink = async ({ userId, userEmail }): Promise<string> => {
   const token = await regenerateToken({
@@ -43,6 +44,7 @@ const sendVerificationEmail = async ({
 export default resolver.pipe(resolver.authorize(), async (_, { session: { userId } }) => {
   const user = await db.user.findFirst({
     where: { id: userId },
+    select: SIMPLE_USER_FIELDS,
   })
 
   if (!user) throw new Error("User not found")

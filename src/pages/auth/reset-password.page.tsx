@@ -1,40 +1,33 @@
-import Layout from "@/pages/components/Layout"
 import { BlitzPage, Routes } from "@blitzjs/next"
-import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
 import Link from "next/link"
-import { assert } from "blitz"
 import resetPassword from "@/features/auth/mutations/resetPassword"
 import { AuthForm } from "./components/AuthForm"
-import { useForm } from "@mantine/form"
+import { useForm, zodResolver } from "@mantine/form"
 import { Button, Flex, PasswordInput } from "@mantine/core"
+import { ResetPassword, ResetPasswordType } from "@/features/auth/schemas"
+import { useStringQueryParam } from "@/pages/hooks/useParam"
 
 const FORM_ERROR = "FORM_ERROR"
 
 const ResetPasswordPage: BlitzPage = () => {
-  const router = useRouter()
-  const token = router.query.token?.toString()
-  const [resetPasswordMutation, { isSuccess }] = useMutation(resetPassword)
+  const token = useStringQueryParam("token")
+  const [$resetPassword, { isSuccess }] = useMutation(resetPassword)
 
-  const form = useForm({
-    initialValues: { password: "", passwordConfirmation: "", token },
+  const form = useForm<ResetPasswordType>({
+    initialValues: { password: "", passwordConfirmation: "", token: "" },
+    validate: zodResolver(ResetPassword),
+    validateInputOnBlur: true,
   })
 
-  const handleSubmit = (values) => {
-    try {
-      assert(token, "token is required.")
-      resetPasswordMutation({ ...values, token })
-    } catch (error: any) {
-      if (error.name === "ResetPasswordError") {
-        return {
-          [FORM_ERROR]: error.message,
-        }
-      } else {
-        return {
-          [FORM_ERROR]: "Sorry, we had an unexpected error. Please try again.",
-        }
-      }
-    }
+  if (!token) {
+    return (
+      <AuthForm title="Invalid Reset Password Link">
+        <Button component={Link} href={Routes.Home()}>
+          Go home
+        </Button>
+      </AuthForm>
+    )
   }
 
   return (
@@ -47,7 +40,11 @@ const ResetPasswordPage: BlitzPage = () => {
           </p>
         </div>
       ) : (
-        <form onSubmit={form.onSubmit(handleSubmit)}>
+        <form
+          onSubmit={form.onSubmit(async (values) => {
+            await $resetPassword({ ...values, token: token as string })
+          })}
+        >
           <Flex direction="column" gap="md">
             <PasswordInput {...form.getInputProps("password")} label="New Password" />
             <PasswordInput
@@ -61,8 +58,5 @@ const ResetPasswordPage: BlitzPage = () => {
     </AuthForm>
   )
 }
-
-ResetPasswordPage.redirectAuthenticatedTo = "/"
-ResetPasswordPage.getLayout = (page) => <Layout title="Reset Your Password">{page}</Layout>
 
 export default ResetPasswordPage
