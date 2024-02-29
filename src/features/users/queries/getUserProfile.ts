@@ -8,14 +8,13 @@ export default resolver.pipe(
       username: z.string().optional(),
     })
   ),
-  resolver.authorize(),
   async ({ username }) => {
     if (!username?.trim()) {
       throw new Error("Username is required")
     }
     const user = await db.user.findFirst({
       where: { username },
-      select: { id: true, name: true, createdAt: true, username: true },
+      select: { id: true, name: true, createdAt: true, username: true, bio: true },
     })
 
     return user

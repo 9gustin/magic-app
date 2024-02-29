@@ -24,11 +24,26 @@ export const authenticateUser = async (rawUserkey: string, rawPassword: string) 
   return rest
 }
 
-export default resolver.pipe(resolver.zod(Login), async ({ userkey, password }, ctx) => {
-  // This throws an error if credentials are invalid
-  const user = await authenticateUser(userkey, password)
+export default resolver.pipe(
+  resolver.zod(Login),
+  async ({ userkey, password, deviceInfo }, ctx) => {
+    // This throws an error if credentials are invalid
+    const user = await authenticateUser(userkey, password)
 
-  await ctx.session.$create({ userId: user.id, role: user.role as Role })
+    // TODO: Improve devices logic and enable this again
+    // if (deviceInfo) {
+    //   sendEmail({
+    //     subject: "New device logged",
+    //     to: user.email,
+    //     react: React.createElement(NewDeviceLogged, {
+    //       name: user.name || user.username,
+    //       deviceInfo: `${deviceInfo.browser.name} (${deviceInfo.os.name})`,
+    //     })
+    //   })
+    // }
 
-  return user
-})
+    await ctx.session.$create({ userId: user.id, role: user.role as Role })
+
+    return user
+  }
+)

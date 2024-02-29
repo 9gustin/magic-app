@@ -1,11 +1,13 @@
+import UAParser from 'ua-parser-js';
 import { AuthenticationError, PromiseReturnType } from "blitz"
 import Link from "next/link"
 import login from "src/features/auth/mutations/login"
 import { useMutation } from "@blitzjs/rpc"
 import { Routes } from "@blitzjs/next"
-import { useForm } from "@mantine/form"
+import { useForm, zodResolver } from "@mantine/form"
 import { Button, Flex, PasswordInput, Text, TextInput } from "@mantine/core"
 import { AuthForm } from "./AuthForm"
+import { Login } from "@/features/auth/schemas"
 
 const FORM_ERROR = "FORM_ERROR"
 
@@ -18,11 +20,18 @@ export const LoginForm = (props: LoginFormProps) => {
 
   const form = useForm({
     initialValues: { userkey: "", password: "" },
+    validate: zodResolver(Login),
   })
 
   const handleSubmit = async (values: { userkey: string; password: string }) => {
     try {
-      const user = await loginMutation(values)
+      const parser = new UAParser();
+      const result = parser.getResult();
+      const deviceInfo = {
+        browser: result.browser,
+        os: result.os,
+      };
+      const user = await loginMutation({ ...values, deviceInfo })
       props.onSuccess?.(user)
     } catch (error: any) {
       if (error instanceof AuthenticationError) {

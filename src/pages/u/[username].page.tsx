@@ -1,36 +1,34 @@
-import { Button, Flex, Loader, Text, Title } from "@mantine/core"
-import { useParams } from "next/navigation"
+import { Loader } from "@mantine/core"
 import Layout from "../components/Layout"
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser"
 import { useQuery } from "@blitzjs/rpc"
 import getUserProfile from "@/features/users/queries/getUserProfile"
-import dayjs from "dayjs"
-import { IconPencil } from "@tabler/icons-react"
+import { BlitzPage, useParam } from "@blitzjs/next"
+import { UserHeader } from "./components/UserHeader"
+import { EditUserModal } from "./components/EditUserModal"
+import { useDisclosure } from "@mantine/hooks"
 
-export default function Profile() {
-  const params = useParams()
+const Profile: BlitzPage = () => {
+  const username = useParam("username")
+  const [opened, { open, close }] = useDisclosure(false)
+
   const user = useCurrentUser()
-  const [profileUser] = useQuery(getUserProfile, { username: params?.username?.toString() || "" })
+  const [profileUser] = useQuery(getUserProfile, { username: username?.toString() })
 
-  if (!params || !user || !profileUser) {
+  if (!username || !profileUser) {
     return <Loader />
   }
 
-  const isCurrentUser = user?.username === params?.username
-
   return (
     <Layout>
-      <Flex align="center" gap="md">
-        <Title>{profileUser.username}</Title>
-        {isCurrentUser && (
-          <Button h={32} w={32} p={0}>
-            <IconPencil size="1.1rem" />
-          </Button>
-        )}
-        {!isCurrentUser && <Button size="sm">Follow</Button>}
-      </Flex>
-      <Text>{profileUser.name}</Text>
-      <Text>Joined {dayjs(profileUser.createdAt).fromNow()}</Text>
+      <UserHeader
+        isCurrentUser={user && user.username === username}
+        user={profileUser}
+        editUser={open}
+      />
+      <EditUserModal user={profileUser} opened={opened} close={close} />
     </Layout>
   )
 }
+
+export default Profile

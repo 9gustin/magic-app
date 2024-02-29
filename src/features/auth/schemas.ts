@@ -13,14 +13,23 @@ export const password = z
 
 export const Signup = z.object({
   name: z.string().optional(),
-  username: z.string(),
+  username: z.string().min(3).max(30),
   email,
   password,
+  terms: z.boolean().refine((value) => value, {
+    message: "You must accept the terms and conditions",
+  }),
 })
 
 export const Login = z.object({
   userkey: z.string(),
   password: z.string(),
+  deviceInfo: z
+    .object({
+      browser: z.object({ name: z.string() }),
+      os: z.object({ name: z.string() }),
+    })
+    .optional(),
 })
 
 export const ForgotPassword = z.object({
@@ -37,6 +46,8 @@ export const ResetPassword = z
     message: "Passwords don't match",
     path: ["passwordConfirmation"], // set the path of the error
   })
+
+export type ResetPasswordType = z.infer<typeof ResetPassword>
 
 export const ChangePassword = z.object({
   currentPassword: z.string(),
