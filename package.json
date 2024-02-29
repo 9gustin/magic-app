@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "blitz dev",
-    "build": "blitz prisma migrate deploy && blitz prisma generate && blitz build",
+    "build": "blitz prisma migrate deploy && blitz prisma generate && npm run email-install-deps && blitz build",
     "start": "blitz start",
     "studio": "blitz prisma studio",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "test": "vitest run --passWithNoTests",
     "test:watch": "vitest",
     "db:migrate": "blitz prisma migrate dev",
-    "email": "cd email/react-email && npm run dev --port 3009"
+    "email": "cd email/react-email && npm run dev --port 3009",
+    "email-install-deps": "cd email/react-email && npm install"
   },
   "prisma": {
     "schema": "db/schema.prisma"
