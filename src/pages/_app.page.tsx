@@ -4,11 +4,15 @@ import { useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import React, { Suspense } from "react"
 import { withBlitz } from "src/blitz-client"
-import "src/styles/globals.css"
+
 import { defaultTheme } from "@/config/theme"
+
 import relativeTime from "dayjs/plugin/relativeTime"
 import dayjs from "dayjs"
 import "dayjs/locale/en"
+
+import "@uploadthing/react/styles.css"
+import "src/styles/globals.css"
 
 dayjs.locale("en")
 dayjs.extend(relativeTime)
