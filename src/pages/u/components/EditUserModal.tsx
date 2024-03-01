@@ -34,11 +34,11 @@ export const EditUserModal = ({ opened, close, user }) => {
 
   const form = useForm<UpdateUserProfileInput>({
     initialValues: {
-      name: user.name,
+      name: user.name || "",
       username: user.username,
-      bio: user.bio,
-      avatarFileKey: user.avatarFileKey,
-      coverFileKey: user.coverFileKey,
+      bio: user.bio || "",
+      avatarFileKey: user.avatarFileKey || "",
+      coverFileKey: user.coverFileKey || "",
     },
     validate: zodResolver(UpdateUserProfile),
     validateInputOnBlur: true,
