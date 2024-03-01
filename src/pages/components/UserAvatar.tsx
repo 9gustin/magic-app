@@ -1,17 +1,14 @@
+import { getUploadthingUrl } from "@/features/uploadthing/utils"
 import { Avatar, AvatarProps } from "@mantine/core"
 import { FC } from "react"
 
 type Props = {
   user: {
-    username?: string
+    avatarFileKey?: string | null
     name?: string | null
-    avatarImageKey?: string | null
+    username: string
   }
 } & Partial<AvatarProps>
-
-export const getUploadthingUrl = (fileKey?: string | null) => {
-  return fileKey ? `https://uploadthing.com/f/${fileKey}` : ""
-}
 
 export const getAvatarFallbackName = (name?: string | null) => {
   if (!name) return ""
@@ -20,8 +17,10 @@ export const getAvatarFallbackName = (name?: string | null) => {
 }
 
 export const UserAvatar: FC<Props> = ({ user, ...rest }) => {
+  if (!user) return null
+
   return (
-    <Avatar src={getUploadthingUrl(user.avatarImageKey)} radius="xl" {...rest}>
+    <Avatar src={getUploadthingUrl(user.avatarFileKey)} radius="xl" {...rest}>
       {getAvatarFallbackName(user.name || user.username)}
     </Avatar>
   )

@@ -21,6 +21,8 @@ model User {
   username       String    @unique
   hashedPassword String?
   bio            String?
+  avatarFileKey  String?
+  coverFileKey   String?
   role           String    @default("USER")
   verifiedAt     DateTime?
 
@@ -44,9 +46,9 @@ model Session {
 }
 
 model Token {
-  id          String   @id @default(uuid())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
   hashedToken String
   type        TokenType
   expiresAt   DateTime

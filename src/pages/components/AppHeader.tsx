@@ -13,8 +13,10 @@ import {
   useMantineTheme,
 } from "@mantine/core"
 import { IconCrystalBall, IconLogout, IconMoonStars, IconSun } from "@tabler/icons-react"
+import { Horizontal } from "mantine-layout-components"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { UserAvatar } from "./UserAvatar"
 
 export const AppHeader = () => {
   const user = useCurrentUser()
@@ -48,13 +50,16 @@ export const AppHeader = () => {
         </Flex>
       </Link>
       <Flex align="center" gap="lg">
-        {user?.username && (
+        {user && (
           <Link
             href={Routes.Profile({
               username: user.username,
             })}
           >
-            <Title size="sm">{user.username}</Title>
+            <Horizontal center>
+              <UserAvatar user={user} />
+              <Title size="sm">{user.username}</Title>
+            </Horizontal>
           </Link>
         )}
         <Switch

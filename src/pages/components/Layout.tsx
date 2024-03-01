@@ -5,6 +5,7 @@ import { AppShell, Container } from "@mantine/core"
 import { BlitzLayout } from "@blitzjs/next"
 
 import { AppHeader } from "./AppHeader"
+import { Notifications } from "@mantine/notifications"
 
 export const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({
   title,
@@ -27,6 +28,7 @@ export const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }>
         })}
       >
         <Container h="100%">{children}</Container>
+        <Notifications />
       </AppShell>
     </>
   )

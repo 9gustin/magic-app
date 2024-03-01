@@ -11,9 +11,11 @@ export const password = z
   .max(100)
   .transform((str) => str.trim())
 
+export const username = z.string().min(3).max(30)
+
 export const Signup = z.object({
   name: z.string().optional(),
-  username: z.string().min(3).max(30),
+  username,
   email,
   password,
   terms: z.boolean().refine((value) => value, {

@@ -22,7 +22,8 @@ const Profile: BlitzPage = () => {
   return (
     <Layout>
       <UserHeader
-        isCurrentUser={user && user.username === username}
+        isCurrentUser={user && user.id === profileUser.id}
+        isVerified={!!user?.verifiedAt}
         user={profileUser}
         editUser={open}
       />

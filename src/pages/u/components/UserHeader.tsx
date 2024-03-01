@@ -5,10 +5,10 @@ import { VerifiedUserAlert } from "@/pages/components/VerifiedUserAlert"
 import { Horizontal, Vertical } from "mantine-layout-components"
 import { UserImages } from "./UserImages"
 
-export const UserHeader = ({ isCurrentUser, user, editUser }) => {
+export const UserHeader = ({ isCurrentUser, user, editUser, isVerified }) => {
   return (
     <Vertical>
-      {isCurrentUser && !user.verifiedAt && <VerifiedUserAlert />}
+      {isCurrentUser && !isVerified && <VerifiedUserAlert />}
       <UserImages user={user} />
       <Vertical fullW center>
         <Horizontal center>

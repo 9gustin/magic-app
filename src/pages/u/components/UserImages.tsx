@@ -1,75 +1,24 @@
+import { getUploadthingUrl } from "@/features/uploadthing/utils"
+import { UpdateUserProfileInput, UserProfile } from "@/features/users/types"
+import { ImageEditable } from "@/pages/components/ImageEditable"
 import { UserAvatar } from "@/pages/components/UserAvatar"
-import { ActionIcon, Image, Indicator, Overlay, Tooltip } from "@mantine/core"
-import { IconPencil, IconX } from "@tabler/icons-react"
-import Conditional from "conditional-wrap"
+import { Image } from "@mantine/core"
+import { UseFormReturnType } from "@mantine/form"
 import { Horizontal, Vertical } from "mantine-layout-components"
 
-const Editable = ({ children, editable }) => {
-  return (
-    <Conditional
-      condition={editable}
-      wrap={(c) => {
-        return (
-          <Indicator
-            color="none"
-            position="bottom-end"
-            label={
-              <Tooltip color="dark" label="Clear image">
-                <ActionIcon
-                  onClick={() => {
-                    console.log("Clear image")
-                  }}
-                  size="xs"
-                  variant="filled"
-                >
-                  <IconX size={13} />
-                </ActionIcon>
-              </Tooltip>
-            }
-          >
-            <Horizontal
-              fullW
-              center
-              sx={{
-                opacity: editable ? 0.3 : 1,
-              }}
-            >
-              {c}
-            </Horizontal>
-            {editable && (
-              <Horizontal
-                fullW
-                center
-                sx={{
-                  position: "absolute",
-                  bottom: "50%",
-                  right: "50%",
-                  transform: "translate(50%, 50%)",
-                }}
-              >
-                <ActionIcon
-                  onClick={() => {
-                    console.log("Clear image")
-                  }}
-                  size="64px"
-                  p="sm"
-                  radius="100%"
-                  variant="subtle"
-                >
-                  <IconPencil size={32} />
-                </ActionIcon>
-              </Horizontal>
-            )}
-          </Indicator>
-        )
-      }}
-    >
-      {children}
-    </Conditional>
-  )
-}
+export const UserImages = ({
+  editable,
+  form,
+  user,
+}: {
+  user: UserProfile
+  editable?: boolean
+  form?: UseFormReturnType<UpdateUserProfileInput>
+}) => {
+  if (!user) return null
+  const cover = form ? form.values.coverFileKey : user.coverFileKey
+  const avatar = form ? form.values.avatarFileKey : user.avatarFileKey
 
-export const UserImages = ({ user, editable = false }) => {
   return (
     <Vertical
       fullW
@@ -78,19 +27,37 @@ export const UserImages = ({ user, editable = false }) => {
         position: "relative",
       }}
     >
-      <Editable editable={editable}>
-        <Image
-          src="https://picsum.photos/900/700"
-          radius="md"
-          fit="cover"
-          h="300px"
-          sx={{
-            overflow: "hidden",
-            borderRadius: "1rem",
-            background: "violet",
-          }}
-        />
-      </Editable>
+      <ImageEditable editable={editable} form={form} fieldName="coverFileKey">
+        {cover && (
+          <Image
+            src={getUploadthingUrl(cover)}
+            fit="cover"
+            h="300px"
+            styles={{
+              figure: {
+                width: "100%",
+              },
+            }}
+            sx={{
+              overflow: "hidden",
+              background: "violet",
+              borderRadius: "1rem",
+              display: "flex",
+              alignItems: "center",
+            }}
+          />
+        )}
+        {!cover && (
+          <Horizontal
+            fullW
+            h="300px"
+            sx={{
+              backgroundColor: "gray",
+              borderRadius: "1rem",
+            }}
+          />
+        )}
+      </ImageEditable>
       <Horizontal
         sx={{
           position: "absolute",
@@ -100,9 +67,9 @@ export const UserImages = ({ user, editable = false }) => {
           transform: "translate(-50%)",
         }}
       >
-        <Editable editable={editable}>
+        <ImageEditable editable={editable} form={form} fieldName="avatarFileKey">
           <UserAvatar
-            user={user}
+            user={{ ...user, avatarFileKey: avatar }}
             size="xl"
             radius="xl"
             sx={{
@@ -110,7 +77,7 @@ export const UserImages = ({ user, editable = false }) => {
               background: "black",
             }}
           />
-        </Editable>
+        </ImageEditable>
       </Horizontal>
     </Vertical>
   )
