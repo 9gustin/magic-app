@@ -11,7 +11,8 @@
     "test:watch": "vitest",
     "db:migrate": "blitz prisma migrate dev",
     "email": "cd email/react-email && npm run dev --port 3009",
-    "email-install-deps": "cd email/react-email && npm install"
+    "email-install-deps": "cd email/react-email && npm install",
+    "postinstall": "npm run email-install-deps"
   },
   "prisma": {
     "schema": "db/schema.prisma"
