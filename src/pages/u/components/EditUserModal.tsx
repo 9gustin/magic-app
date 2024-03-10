@@ -22,14 +22,6 @@ export const EditUserModal = ({ opened, close, user }) => {
         icon: <IconExclamationCircle />,
       })
     },
-    onSuccess: () => {
-      notifications.show({
-        title: "Profile updated",
-        message: "Your profile has been updated",
-        color: "green",
-      })
-      close()
-    },
   })
 
   const form = useForm<UpdateUserProfileInput>({
@@ -49,6 +41,12 @@ export const EditUserModal = ({ opened, close, user }) => {
       <form
         onSubmit={form.onSubmit(async (values) => {
           await $updateUserProfile(values)
+          notifications.show({
+            title: "Profile updated",
+            message: "Your profile has been updated",
+            color: "green",
+          })
+          close()
           router.push(Routes.Profile({ username: values.username }))
         })}
         style={{ width: "100%" }}
