@@ -67,8 +67,20 @@ export const AppHeader = () => {
           checked={colorScheme === "dark"}
           color={colorScheme === "dark" ? "gray" : "dark"}
           onChange={() => toggleColorScheme()}
-          onLabel={<IconSun size="1rem" stroke={2.5} color={theme.colors.indigo[2]} />}
-          offLabel={<IconMoonStars size="1rem" stroke={2.5} color={theme.colors.indigo[9]} />}
+          onLabel={
+            <IconSun
+              size="1rem"
+              stroke={2.5}
+              color={theme.colors[theme.primaryColor]?.[2] ?? theme.colors.yellow[2]}
+            />
+          }
+          offLabel={
+            <IconMoonStars
+              size="1rem"
+              stroke={2.5}
+              color={theme.colors[theme.primaryColor]?.[9] ?? theme.colors.gray[9]}
+            />
+          }
         />
         {user && (
           <Button

@@ -38,13 +38,13 @@ export const UserImages = ({
                 width: "100%",
               },
             }}
-            sx={{
+            sx={(theme) => ({
               overflow: "hidden",
-              background: "violet",
               borderRadius: "1rem",
               display: "flex",
               alignItems: "center",
-            }}
+              background: theme.colors[theme.primaryColor]?.[1] || theme.colors.gray[0],
+            })}
           />
         )}
         {!cover && (

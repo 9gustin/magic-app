@@ -7,7 +7,7 @@ import { Loader } from "@mantine/core"
 const Home: BlitzPage = () => {
   return (
     <Layout title="Home">
-      <Suspense fallback={<Loader color="indigo" />}>
+      <Suspense fallback={<Loader />}>
         <UserInfo />
       </Suspense>
     </Layout>
