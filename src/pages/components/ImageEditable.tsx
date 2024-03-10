@@ -1,4 +1,5 @@
 import { UpdateUserProfileInput } from "@/features/users/types"
+import styled from "@emotion/styled"
 import { ActionIcon, FileButton, Indicator, Tooltip, Image, Loader } from "@mantine/core"
 import { UseFormReturnType } from "@mantine/form"
 import { showNotification } from "@mantine/notifications"
@@ -7,6 +8,13 @@ import Conditional from "conditional-wrap"
 import { Horizontal } from "mantine-layout-components"
 import { useState } from "react"
 import { useUploadThing } from "./uploadthing"
+
+const SXEdit = styled(Horizontal)`
+  position: absolute;
+  bottom: 50%;
+  right: 50%;
+  transform: translate(50%, 50%);
+`
 
 export const ImageEditable = ({
   children,
@@ -21,7 +29,6 @@ export const ImageEditable = ({
 }) => {
   const { startUpload, isUploading } = useUploadThing("imageUploader", {
     onClientUploadComplete: (files) => {
-      console.log("files", files)
       const fileKey = files?.[0]?.key
       if (form && fieldName && fileKey) {
         form.setFieldValue(fieldName, fileKey)
@@ -72,16 +79,7 @@ export const ImageEditable = ({
               {c}
             </Horizontal>
             {editable && (
-              <Horizontal
-                fullW
-                center
-                sx={{
-                  position: "absolute",
-                  bottom: "50%",
-                  right: "50%",
-                  transform: "translate(50%, 50%)",
-                }}
-              >
+              <SXEdit fullW center>
                 {isUploading && <Loader />}
                 {!isUploading && (
                   <FileButton
@@ -97,7 +95,7 @@ export const ImageEditable = ({
                     )}
                   </FileButton>
                 )}
-              </Horizontal>
+              </SXEdit>
             )}
           </Indicator>
         )

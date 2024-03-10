@@ -1,11 +1,15 @@
+import styled from "@emotion/styled"
 import { Badge } from "@mantine/core"
 import { openContextModal } from "@mantine/modals"
 import { GlobalModal } from "./modals/config"
 
+const SXBadge = styled(Badge)`
+  cursor: pointer;
+`
+
 export const BecomeProChip = ({}) => {
   return (
-    <Badge
-      sx={{ cursor: "pointer" }}
+    <SXBadge
       onClick={() =>
         openContextModal({
           modal: GlobalModal.becomePro,
@@ -15,6 +19,6 @@ export const BecomeProChip = ({}) => {
       }
     >
       Become pro
-    </Badge>
+    </SXBadge>
   )
 }

@@ -2,6 +2,7 @@ import logout from "@/features/auth/mutations/logout"
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser"
 import { Routes } from "@blitzjs/next"
 import { useMutation } from "@blitzjs/rpc"
+import styled from "@emotion/styled"
 import {
   Button,
   Flex,
@@ -19,6 +20,12 @@ import { useRouter } from "next/router"
 import { BecomeProChip } from "./BecomeProChip"
 import { UserAvatar } from "./UserAvatar"
 
+const SXHeader = styled(Header)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
 export const AppHeader = () => {
   const user = useCurrentUser()
   const theme = useMantineTheme()
@@ -33,15 +40,7 @@ export const AppHeader = () => {
   }
 
   return (
-    <Header
-      height={60}
-      p="xs"
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
+    <SXHeader height={60} p="xs">
       <Link href={Routes.Home()}>
         <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
           <Flex align="center" gap="sm">
@@ -97,6 +96,6 @@ export const AppHeader = () => {
           </Button>
         )}
       </Flex>
-    </Header>
+    </SXHeader>
   )
 }

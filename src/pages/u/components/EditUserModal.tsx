@@ -40,13 +40,8 @@ export const EditUserModal = ({ opened, close, user }) => {
     <Drawer opened={opened} onClose={close} title="Edit profile" position="right">
       <form
         onSubmit={form.onSubmit(async (values) => {
-          await $updateUserProfile(values)
-          notifications.show({
-            title: "Profile updated",
-            message: "Your profile has been updated",
-            color: "green",
-          })
           close()
+          await $updateUserProfile(values)
 
           if (user.username !== values.username) {
             router.push(Routes.Profile({ username: values.username }))
