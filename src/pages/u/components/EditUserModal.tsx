@@ -47,7 +47,10 @@ export const EditUserModal = ({ opened, close, user }) => {
             color: "green",
           })
           close()
-          router.push(Routes.Profile({ username: values.username }))
+
+          if (user.username !== values.username) {
+            router.push(Routes.Profile({ username: values.username }))
+          }
         })}
         style={{ width: "100%" }}
       >

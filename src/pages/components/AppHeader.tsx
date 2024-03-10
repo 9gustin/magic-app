@@ -16,6 +16,7 @@ import { IconCrystalBall, IconLogout, IconMoonStars, IconSun } from "@tabler/ico
 import { Horizontal } from "mantine-layout-components"
 import Link from "next/link"
 import { useRouter } from "next/router"
+import { BecomeProChip } from "./BecomeProChip"
 import { UserAvatar } from "./UserAvatar"
 
 export const AppHeader = () => {
@@ -62,6 +63,7 @@ export const AppHeader = () => {
             </Horizontal>
           </Link>
         )}
+        <BecomeProChip />
         <Switch
           size="md"
           checked={colorScheme === "dark"}

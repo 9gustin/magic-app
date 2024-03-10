@@ -13,6 +13,8 @@ import "dayjs/locale/en"
 
 import "@uploadthing/react/styles.css"
 import "src/styles/globals.css"
+import { ModalsProvider } from "@mantine/modals"
+import { globalModals } from "./components/modals/config"
 
 dayjs.locale("en")
 dayjs.extend(relativeTime)
@@ -60,9 +62,11 @@ function MyApp({ Component, pageProps }: AppProps) {
             colorScheme,
           }}
         >
-          <Suspense fallback={<Loader />}>
-            <Component {...pageProps} />
-          </Suspense>
+          <ModalsProvider modals={globalModals}>
+            <Suspense fallback={<Loader />}>
+              <Component {...pageProps} />
+            </Suspense>
+          </ModalsProvider>
         </MantineProvider>
       </ColorSchemeProvider>
     </ErrorBoundary>
