@@ -43,12 +43,12 @@ export const AppHeader = () => {
       }}
     >
       <Link href={Routes.Home()}>
-        <Flex align="center" gap="sm">
-          <IconCrystalBall />
-          <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+        <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+          <Flex align="center" gap="sm">
+            <IconCrystalBall />
             <Title size="sm">Magic app</Title>
-          </MediaQuery>
-        </Flex>
+          </Flex>
+        </MediaQuery>
       </Link>
       <Flex align="center" gap="lg">
         {user && (
@@ -59,7 +59,9 @@ export const AppHeader = () => {
           >
             <Horizontal center>
               <UserAvatar user={user} />
-              <Title size="sm">{user.username}</Title>
+              <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+                <Title size="sm">{user.username}</Title>
+              </MediaQuery>
             </Horizontal>
           </Link>
         )}
