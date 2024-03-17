@@ -4,5 +4,5 @@ export const defaultTheme: MantineThemeOverride = {
   activeStyles: { transform: "scale(0.95)" },
   defaultRadius: "md",
   cursorType: "pointer",
-  primaryColor: "indigo",
+  primaryColor: "yellow",
 }
