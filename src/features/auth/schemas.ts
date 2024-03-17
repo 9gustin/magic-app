@@ -7,8 +7,8 @@ export const email = z
 
 export const password = z
   .string()
-  .min(10)
-  .max(100)
+  .min(8)
+  .max(24)
   .transform((str) => str.trim())
 
 export const username = z.string().min(3).max(30)
@@ -55,3 +55,16 @@ export const ChangePassword = z.object({
   currentPassword: z.string(),
   newPassword: password,
 })
+
+export const ChangePasswordInput = z
+  .object({
+    currentPassword: password,
+    newPassword: password,
+    newPasswordConfirmation: password,
+  })
+  .refine((data) => data.newPassword === data.newPasswordConfirmation, {
+    message: "Passwords don't match",
+    path: ["newPasswordConfirmation"],
+  })
+
+export type ChangePasswordInputType = z.infer<typeof ChangePasswordInput>

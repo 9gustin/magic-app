@@ -38,7 +38,7 @@ export const HeaderMenu = () => {
         </MenuItemLink>
         <MenuItemIcon
           Icon={IconBolt}
-          color="yellow.3"
+          color="yellow.4"
           onClick={() =>
             openContextModal({
               modal: GlobalModal.becomePro,
@@ -50,57 +50,9 @@ export const HeaderMenu = () => {
           Become Pro
         </MenuItemIcon>
 
-        <MenuItemIcon color="red.3" Icon={IconLogout} onClick={handleLogout}>
+        <MenuItemIcon color="red.4" Icon={IconLogout} onClick={handleLogout}>
           Logout
         </MenuItemIcon>
-
-        {/* <Flex align="center" gap="lg">
-        {user && (
-          <Link
-            href={Routes.Profile({
-              username: user.username,
-            })}
-          >
-            <Horizontal center>
-              <UserAvatar user={user} />
-              <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-                <Title size="sm">{user.username}</Title>
-              </MediaQuery>
-            </Horizontal>
-          </Link>
-        )}
-        <BecomeProChip />
-        <Switch
-          size="md"
-          checked={colorScheme === "dark"}
-          color={colorScheme === "dark" ? "gray" : "dark"}
-          onChange={() => toggleColorScheme()}
-          onLabel={
-            <IconSun
-              size="1rem"
-              stroke={2.5}
-              color={theme.colors[theme.primaryColor]?.[2] ?? theme.colors.yellow[2]}
-            />
-          }
-          offLabel={
-            <IconMoonStars
-              size="1rem"
-              stroke={2.5}
-              color={theme.colors[theme.primaryColor]?.[9] ?? theme.colors.gray[9]}
-            />
-          }
-        />
-        {user && (
-          <Button
-            size="xs"
-            variant="light"
-            onClick={handleLogout}
-            leftIcon={<IconLogout size="1.2rem" />}
-          >
-            Logout
-          </Button>
-        )}
-      </Flex> */}
       </Menu.Dropdown>
     </Menu>
   )

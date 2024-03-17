@@ -1,7 +1,16 @@
 import { Routes } from "@blitzjs/next"
 import styled from "@emotion/styled"
-import { Flex, Header, Title, useMantineTheme } from "@mantine/core"
-import { IconCrystalBall } from "@tabler/icons-react"
+import {
+  Flex,
+  Header,
+  Switch,
+  Title,
+  Tooltip,
+  useMantineColorScheme,
+  useMantineTheme,
+} from "@mantine/core"
+import { IconCommand, IconCrystalBall, IconMoonStars, IconSun } from "@tabler/icons-react"
+import { Horizontal } from "mantine-layout-components"
 import Link from "next/link"
 import { HeaderMenu } from "./components/Menu"
 
@@ -13,6 +22,7 @@ const SXHeader = styled(Header)`
 
 export const AppHeader = () => {
   const theme = useMantineTheme()
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme()
 
   return (
     <SXHeader height={60} p="xs">
@@ -22,7 +32,39 @@ export const AppHeader = () => {
           <Title size="sm">Magic app</Title>
         </Flex>
       </Link>
-      <HeaderMenu />
+      <Horizontal>
+        <Tooltip
+          label={
+            <Horizontal spacing={4}>
+              <IconCommand size={12} /> + J
+            </Horizontal>
+          }
+        >
+          <div>
+            <Switch
+              size="md"
+              checked={colorScheme === "dark"}
+              color={colorScheme === "dark" ? "gray" : "dark"}
+              onChange={() => toggleColorScheme()}
+              onLabel={
+                <IconSun
+                  size="1rem"
+                  stroke={2.5}
+                  color={theme.colors[theme.primaryColor]?.[2] ?? theme.colors.yellow[2]}
+                />
+              }
+              offLabel={
+                <IconMoonStars
+                  size="1rem"
+                  stroke={2.5}
+                  color={theme.colors[theme.primaryColor]?.[9] ?? theme.colors.gray[9]}
+                />
+              }
+            />
+          </div>
+        </Tooltip>
+        <HeaderMenu />
+      </Horizontal>
     </SXHeader>
   )
 }
