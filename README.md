@@ -32,7 +32,7 @@ NODEMAILER_LOCAL_PASS=
 UPLOADTHING_SECRET=
 UPLOADTHING_APP_ID=
 ```
-a
+and then run
 ```BASH
 npm install && npm run db:migrate
 ```
@@ -41,3 +41,12 @@ And its ready to go ;)
 ```BASH
 npm run dev
 ```
+
+### Features
+ - Signup 
+ - Login
+ - Forgot password (email with resend)
+ - User email verification (email with resend)
+ - Public profile (username, name, bio, avatar and cover image)
+ - Edit user info
+ - 
