@@ -4,7 +4,7 @@ import Head from "next/head"
 import { AppShell, Container } from "@mantine/core"
 import { BlitzLayout } from "@blitzjs/next"
 
-import { AppHeader } from "./AppHeader"
+import { AppHeader } from "./AppHeader/AppHeader"
 import { Notifications } from "@mantine/notifications"
 
 export const Layout: BlitzLayout<{ title?: string; children?: React.ReactNode }> = ({

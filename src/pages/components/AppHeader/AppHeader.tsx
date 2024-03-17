@@ -1,0 +1,26 @@
+import { Routes } from "@blitzjs/next"
+import styled from "@emotion/styled"
+import { Flex, Header, Title } from "@mantine/core"
+import { IconCrystalBall } from "@tabler/icons-react"
+import Link from "next/link"
+import { HeaderMenu } from "./components/Menu"
+
+const SXHeader = styled(Header)`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+export const AppHeader = () => {
+  return (
+    <SXHeader height={60} p="xs">
+      <Link href={Routes.Home()}>
+        <Flex align="center" gap="sm">
+          <IconCrystalBall />
+          <Title size="sm">Magic app</Title>
+        </Flex>
+      </Link>
+      <HeaderMenu />
+    </SXHeader>
+  )
+}

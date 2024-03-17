@@ -2,37 +2,20 @@ import logout from "@/features/auth/mutations/logout"
 import { useCurrentUser } from "@/features/users/hooks/useCurrentUser"
 import { Routes } from "@blitzjs/next"
 import { useMutation } from "@blitzjs/rpc"
-import styled from "@emotion/styled"
-import {
-  Button,
-  Flex,
-  Header,
-  MediaQuery,
-  Switch,
-  Title,
-  useMantineColorScheme,
-  useMantineTheme,
-} from "@mantine/core"
-import { IconCrystalBall, IconLogout, IconMoonStars, IconSun } from "@tabler/icons-react"
-import { Horizontal } from "mantine-layout-components"
-import Link from "next/link"
+import { Button, Menu } from "@mantine/core"
+import { openContextModal } from "@mantine/modals"
+import { IconBolt, IconLogout, IconSettings, IconUser } from "@tabler/icons-react"
 import { useRouter } from "next/router"
-import { BecomeProChip } from "./BecomeProChip"
-import { UserAvatar } from "./UserAvatar"
+import { GlobalModal } from "../../modals/config"
+import { UserAvatar } from "../../UserAvatar"
+import { MenuItemIcon, MenuItemLink } from "./MenuHelpers"
 
-const SXHeader = styled(Header)`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-
-export const AppHeader = () => {
+export const HeaderMenu = () => {
   const user = useCurrentUser()
-  const theme = useMantineTheme()
   const router = useRouter()
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme()
-
   const [$logoutMutation] = useMutation(logout)
+
+  if (!user) return null
 
   const handleLogout = async () => {
     await $logoutMutation()
@@ -40,16 +23,38 @@ export const AppHeader = () => {
   }
 
   return (
-    <SXHeader height={60} p="xs">
-      <Link href={Routes.Home()}>
-        <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-          <Flex align="center" gap="sm">
-            <IconCrystalBall />
-            <Title size="sm">Magic app</Title>
-          </Flex>
-        </MediaQuery>
-      </Link>
-      <Flex align="center" gap="lg">
+    <Menu position="bottom-end">
+      <Menu.Target>
+        <Button variant="light" radius="100%" h="40px" w="40px" p="0">
+          <UserAvatar user={user} />
+        </Button>
+      </Menu.Target>
+      <Menu.Dropdown>
+        <MenuItemLink Icon={IconSettings} href={Routes.Settings()}>
+          Settings
+        </MenuItemLink>
+        <MenuItemLink Icon={IconUser} href={Routes.Profile({ username: user.username })}>
+          Go to profile
+        </MenuItemLink>
+        <MenuItemIcon
+          Icon={IconBolt}
+          color="yellow.3"
+          onClick={() =>
+            openContextModal({
+              modal: GlobalModal.becomePro,
+              title: "Get PRO Plan",
+              innerProps: {},
+            })
+          }
+        >
+          Become Pro
+        </MenuItemIcon>
+
+        <MenuItemIcon color="red.3" Icon={IconLogout} onClick={handleLogout}>
+          Logout
+        </MenuItemIcon>
+
+        {/* <Flex align="center" gap="lg">
         {user && (
           <Link
             href={Routes.Profile({
@@ -95,7 +100,8 @@ export const AppHeader = () => {
             Logout
           </Button>
         )}
-      </Flex>
-    </SXHeader>
+      </Flex> */}
+      </Menu.Dropdown>
+    </Menu>
   )
 }
